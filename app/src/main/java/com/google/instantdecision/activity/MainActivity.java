@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.instantdecision.fragment.ConfigureVoteFragment;
 import com.google.instantdecision.fragment.ListVotesFragment;
 import com.google.instantdecision.fragment.NavigationDrawerFragment;
 import com.google.instantdecision.R;
@@ -120,7 +121,8 @@ public class MainActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.add_vote) {
+            Utility.getInstance().navigateToFragment(ConfigureVoteFragment.newInstance());
             return true;
         }
 

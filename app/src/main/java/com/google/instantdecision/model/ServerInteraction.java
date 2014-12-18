@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.Map;
@@ -42,6 +43,7 @@ public class ServerInteraction {
         } catch (IOException e) {
             Log.e("goog-instant", e.getMessage());
         }
+        Collections.reverse(votes);
         return votes;
     }
 

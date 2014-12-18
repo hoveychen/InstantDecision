@@ -109,7 +109,8 @@ public class VotingFragment extends Fragment {
                     vote.getTickets().add(ticket);
                     // Submit ticket to server.
                     ServerInteraction.sendTicket(ticket, vote.getId());
-                    Utility.getInstance().navigateToFragment(VoteStatusFragment.newInstance(vote));
+                    Utility.getInstance().navigateToFragment(
+                            ListVotesFragment.newInstance(ListVotesFragment.FILTER_ALL));
                 }
             }
         });

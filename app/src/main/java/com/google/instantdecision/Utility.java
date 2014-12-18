@@ -149,7 +149,7 @@ public class Utility {
     public void navigateToFragmentWithBackStack(Fragment fragment) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .addToBackStack(null)
+//                .addToBackStack(null)
                 .replace(R.id.container, fragment)
                 .commit();
     }

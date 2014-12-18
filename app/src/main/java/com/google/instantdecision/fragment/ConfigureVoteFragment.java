@@ -85,7 +85,7 @@ public class ConfigureVoteFragment extends Fragment {
             }
         });
         NumberPicker numTicketView = (NumberPicker) view.findViewById(R.id.numTicketPicker);
-        numTicketView.setMinValue(0);
+        numTicketView.setMinValue(2);
         numTicketView.setMaxValue(100);
         numTicketView.setValue(vote.getNumTicket());
         numTicketView.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -110,15 +110,21 @@ public class ConfigureVoteFragment extends Fragment {
         submitView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServerInteraction.createVote(vote);
-                Utility.getInstance().navigateToFragment(ListVotesFragment.newInstance(
-                        ListVotesFragment.FILTER_ALL));
+                if (sanityCheckVote(vote)) {
+                    ServerInteraction.createVote(vote);
+                    Utility.getInstance().navigateToFragment(ListVotesFragment.newInstance(
+                            ListVotesFragment.FILTER_ALL));
+                } else {
+                    Utility.getInstance().alertWarning("Something is missing.");
+                }
             }
         });
 
         for (Option option : vote.getOptions()) {
             createOptionItemView(container, option);
         }
+
+        titleView.requestFocus();
 
         Switch multiSelectSwitch = (Switch) view.findViewById(R.id.multiSelectSwitch);
         multiSelectSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -128,6 +134,18 @@ public class ConfigureVoteFragment extends Fragment {
             }
         });
 
+    }
+
+    private boolean sanityCheckVote(Vote vote) {
+        if (vote.getTitle().equals("")) {
+            return false;
+        }
+        for (Option option : vote.getOptions()) {
+            if (option.getTitle().equals("")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void createOptionItemView(final LinearLayout container, final Option option) {
@@ -161,6 +179,8 @@ public class ConfigureVoteFragment extends Fragment {
                 container.removeView(itemView);
             }
         });
+
+        titleView.requestFocus();
 
         container.addView(itemView);
     }

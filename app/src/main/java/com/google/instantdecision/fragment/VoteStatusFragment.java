@@ -2,6 +2,7 @@ package com.google.instantdecision.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -98,6 +99,10 @@ public class VoteStatusFragment extends Fragment {
         TextView activeView = (TextView) view.findViewById(R.id.activeTextView);
         activeView.setText(vote.isActive() ? "Active" : "Closed");
 
+        TextView progressTextView = (TextView) view.findViewById(R.id.progressTextView);
+        progressTextView.setText(Integer.toString(vote.getTickets().size()) + "/"
+                + Integer.toString(vote.getNumTicket()));
+
         ProgressBar numTicketProgressBar = (ProgressBar) view.findViewById(
                 R.id.numTicketProgressBar);
         numTicketProgressBar.setMax(vote.getNumTicket());
@@ -114,6 +119,7 @@ public class VoteStatusFragment extends Fragment {
             for (Option option : myOwnTicket.getSelection().getSelections()) {
                 TextView optionView = new TextView(getActivity());
                 optionView.setText(option.getTitle());
+                optionView.setTextSize(20);
                 selectedOptionContainer.addView(optionView);
             }
         } else {
@@ -127,6 +133,7 @@ public class VoteStatusFragment extends Fragment {
         for (Map.Entry<Option, Integer> stat : vote.statisticTicket().entrySet()) {
             TextView statView = new TextView(getActivity());
             statView.setText(stat.getKey().getTitle() + ": " + stat.getValue().toString());
+            statView.setTextSize(20);
             voteStatistic.addView(statView);
 
             if (stat.getValue() > mostNumVote) {
