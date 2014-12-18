@@ -112,7 +112,7 @@ public class Utils {
 				populateTicket(vote, voteObj.getJSONArray("selections"), voteObj.getBoolean("multi_selection"));
                 vote.setActive(voteObj.getBoolean("active"));
                 vote.setMultiSelect(voteObj.getBoolean("multi_selection"));
-                vote.setNumTicket(kDefaultNumTickets);
+                vote.setNumTicket(voteObj.getInt("num_tickets"));
 				votes.add(vote);
 			}
 		} catch (JSONException e) {

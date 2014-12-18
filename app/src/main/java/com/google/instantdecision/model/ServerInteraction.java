@@ -86,6 +86,7 @@ public class ServerInteraction {
         }
         data.add(new BasicNameValuePair("active", Boolean.toString(vote.isActive())));
         data.add(new BasicNameValuePair("multi_selection", Boolean.toString(vote.isMultiSelect())));
+        data.add(new BasicNameValuePair("num_tickets", String.valueOf(vote.getNumTicket())));
         StringBuilder sb = new StringBuilder("survey/new?");
         try {
             for (NameValuePair pair: data) {
