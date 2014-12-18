@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.Switch;
 
 import com.google.instantdecision.R;
 import com.google.instantdecision.Utility;
@@ -56,7 +58,7 @@ public class ConfigureVoteFragment extends Fragment {
         if (getArguments() != null) {
             String voteId = getArguments().getString(ARG_PARAM1);
             for (Vote iterVote : Utility.getInstance().getVotes()) {
-                if (iterVote.getId() == voteId) {
+                if (iterVote.getId().equals(voteId)) {
                     vote = iterVote;
                     break;
                 }
@@ -76,10 +78,32 @@ public class ConfigureVoteFragment extends Fragment {
         final LinearLayout container = (LinearLayout) view.findViewById(R.id.optionListContainer);
         EditText titleView = (EditText) view.findViewById(R.id.titleEditText);
         titleView.setText(vote.getTitle());
+        titleView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                vote.setTitle(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         NumberPicker numTicketView = (NumberPicker) view.findViewById(R.id.numTicketPicker);
         numTicketView.setMinValue(0);
         numTicketView.setMaxValue(100);
         numTicketView.setValue(vote.getNumTicket());
+        numTicketView.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                vote.setNumTicket(newVal);
+            }
+        });
         Button newOptionView = (Button) view.findViewById(R.id.newOptionBtn);
         newOptionView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +127,14 @@ public class ConfigureVoteFragment extends Fragment {
         for (Option option : vote.getOptions()) {
             createOptionItemView(container, option);
         }
+
+        Switch multiSelectSwitch = (Switch) view.findViewById(R.id.multiSelectSwitch);
+        multiSelectSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                vote.setMultiSelect(isChecked);
+            }
+        });
 
     }
 

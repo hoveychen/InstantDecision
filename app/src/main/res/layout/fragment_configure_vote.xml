@@ -28,25 +28,32 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/ticketNumHint"
                 android:id="@+id/numTicketHint"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical" />
 
             <NumberPicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/numTicketPicker"
-                android:layout_gravity="center_horizontal"
                 android:longClickable="false" />
 
-            <Button
+            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/newOptionBtn"
-                android:layout_gravity="center_vertical"
-                android:text="New Option"
-                android:layout_marginLeft="50dp" />
+                android:text="Multi Choice"
+                android:id="@+id/multiSelectSwitch"
+                android:layout_marginLeft="30dp"
+                android:showText="false"
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newOptionBtn"
+            android:layout_gravity="center_horizontal"
+            android:text="New Option" />
 
         <ScrollView
             android:layout_width="match_parent"

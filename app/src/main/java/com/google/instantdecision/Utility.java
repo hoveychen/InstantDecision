@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.telephony.TelephonyManager;
 import android.util.Patterns;
 
+import com.google.instantdecision.fragment.ConfigureVoteFragment;
 import com.google.instantdecision.fragment.VoteStatusFragment;
 import com.google.instantdecision.fragment.VotingFragment;
 import com.google.instantdecision.model.Identifier;
@@ -50,7 +51,7 @@ public class Utility {
 
         String userId = sharedPref.getString(activity.getString(R.string.user_id), defaultValue);
 
-        if (userId == defaultValue) {
+        if (userId.equals(defaultValue)) {
             SharedPreferences.Editor editor = sharedPref.edit();
             TelephonyManager tm = (TelephonyManager) activity.getBaseContext().getSystemService(
                     Context.TELEPHONY_SERVICE);
@@ -69,8 +70,7 @@ public class Utility {
         Account[] accounts = AccountManager.get(activity.getBaseContext()).getAccounts();
         for (Account account : accounts) {
             if (emailPattern.matcher(account.name).matches()) {
-                String possibleEmail = account.name;
-                return possibleEmail;
+                return account.name;
             }
         }
         return "NotFound";
@@ -181,9 +181,25 @@ public class Utility {
 
     public void navigateToVote(Vote vote) {
         if (vote.isFinished() || getMyOwnTicket(vote) != null) {
-            Utility.getInstance().navigateToFragment(VoteStatusFragment.newInstance(vote));
+            Utility.getInstance().navigateToFragmentWithBackStack(
+                    VoteStatusFragment.newInstance(vote));
         } else {
-            Utility.getInstance().navigateToFragment(VotingFragment.newInstance(vote));
+            Utility.getInstance().navigateToFragmentWithBackStack(
+                    VotingFragment.newInstance(vote));
         }
+    }
+
+    public void startNewVote() {
+        Vote newVote = new Vote(Long.toString(new Random().nextLong()));
+        newVote.setTitle("");
+        newVote.setNumTicket(3);
+        newVote.setMultiSelect(false);
+        newVote.setActive(true);
+        Option defaultOption = new Option();
+        defaultOption.setTitle("");
+        newVote.getOptions().add(defaultOption);
+        newVote.setCreator(getOwnIdentifier());
+        votes.add(newVote);
+        navigateToFragmentWithBackStack(ConfigureVoteFragment.newInstance(newVote));
     }
 }

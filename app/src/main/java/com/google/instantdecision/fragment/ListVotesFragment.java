@@ -20,15 +20,14 @@ import com.google.instantdecision.model.Vote;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 
 public class ListVotesFragment extends Fragment {
 
-    private static final String KEY_FILTER = "filter";
     public static final String FILTER_ALL = "all";
     public static final String FILTER_ACTIVE = "active";
     public static final String FILTER_CLOSED = "closed";
+    private static final String KEY_FILTER = "filter";
     private static String KEY_VOTE_TITLE = "titleTextView";
     private static String KEY_VOTE_NUM_TICKET = "numTicketTextView";
     private static String KEY_VOTE_ACTIVE = "activeTextView";
@@ -96,10 +95,7 @@ public class ListVotesFragment extends Fragment {
         newVoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Vote newVote = new Vote(Long.toString(new Random().nextLong()));
-                newVote.setCreator(Utility.getInstance().getOwnIdentifier());
-                Utility.getInstance().navigateToFragmentWithBackStack(
-                        ConfigureVoteFragment.newInstance(newVote));
+                Utility.getInstance().startNewVote();
             }
         });
 
@@ -108,9 +104,9 @@ public class ListVotesFragment extends Fragment {
     private ArrayList<Map<String, String>> getVoteListMap() {
         ArrayList<Map<String, String>> binds = new ArrayList<>();
         for (Vote vote : Utility.getInstance().getVotes()) {
-            if (filter == FILTER_ACTIVE && vote.isFinished()) {
+            if (filter.equals(FILTER_ACTIVE) && vote.isFinished()) {
                 continue;
-            } else if (filter == FILTER_CLOSED && !vote.isFinished()) {
+            } else if (filter.equals(FILTER_CLOSED) && !vote.isFinished()) {
                 continue;
             }
 
