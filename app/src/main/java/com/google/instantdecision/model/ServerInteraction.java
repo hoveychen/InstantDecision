@@ -12,17 +12,19 @@ import android.util.Log;
 import java.util.TimerTask;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 public class ServerInteraction {
 
     public static ArrayList<Vote> storage = new ArrayList<Vote>();
     private static String HOST = "http://112.95.228.73:5000/";
-    static final int kRefreshInterval = 3000;
+    static final int kRefreshInterval = 10000;
 
     public static ArrayList<Vote> getVotes() {
         HttpClient client = new DefaultHttpClient(Utils.httpParams());
@@ -74,18 +76,20 @@ public class ServerInteraction {
 
     public static void createVote(Vote vote) {
         //survey/new?name=survey_abc&owner=zhiyuwang&option=oo1&option=oo2&active=true&multi_selection=true
-        HashMap<String, String> data = new HashMap<String, String>();
-        data.put("name", vote.getTitle());
-        data.put("owner", vote.getCreator().getDeviceId());
+        ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+        data.add(new BasicNameValuePair("name", vote.getTitle()));
+        data.add(new BasicNameValuePair("owner", vote.getCreator().getDeviceId()));
+
         for (Option op : vote.getOptions()) {
-            data.put("option", op.getTitle());
+            data.add(new BasicNameValuePair("option", op.getTitle()));
+//            data.put("option", op.getTitle());
         }
-        data.put("active", Boolean.toString(vote.isActive()));
-        data.put("multi_selection", Boolean.toString(vote.isMultiSelect()));
+        data.add(new BasicNameValuePair("active", Boolean.toString(vote.isActive())));
+        data.add(new BasicNameValuePair("multi_selection", Boolean.toString(vote.isMultiSelect())));
         StringBuilder sb = new StringBuilder("survey/new?");
         try {
-            for (Map.Entry<String, String> entry : data.entrySet()) {
-                sb.append(entry.getKey()).append("=").append(URLEncoder.encode(entry.getValue(), "UTF-8")).append("&");
+            for (NameValuePair pair: data) {
+                sb.append(pair.getName()).append("=").append(URLEncoder.encode(pair.getValue(), "UTF-8")).append("&");
             }
             AsyncRequest task = new AsyncRequest();
             task.execute(new String[]{sb.toString()});
