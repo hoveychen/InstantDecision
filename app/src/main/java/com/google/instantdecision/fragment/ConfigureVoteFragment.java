@@ -19,6 +19,7 @@ import android.widget.Switch;
 import com.google.instantdecision.R;
 import com.google.instantdecision.Utility;
 import com.google.instantdecision.model.Option;
+import com.google.instantdecision.model.ServerInteraction;
 import com.google.instantdecision.model.Vote;
 
 import java.util.ArrayList;
@@ -27,10 +28,7 @@ import java.util.Random;
 
 public class ConfigureVoteFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "voteId";
-
     private Vote vote;
-    private ArrayList<View> optionItemViews = new ArrayList<>();
 
     public ConfigureVoteFragment() {
         // Required empty public constructor
@@ -40,14 +38,12 @@ public class ConfigureVoteFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param vote The vote to configure.
      * @return A new instance of fragment NewVote.
      */
 
-    public static ConfigureVoteFragment newInstance(Vote vote) {
+    public static ConfigureVoteFragment newInstance() {
         ConfigureVoteFragment fragment = new ConfigureVoteFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, vote.getId());
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,14 +52,8 @@ public class ConfigureVoteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            String voteId = getArguments().getString(ARG_PARAM1);
-            for (Vote iterVote : Utility.getInstance().getVotes()) {
-                if (iterVote.getId().equals(voteId)) {
-                    vote = iterVote;
-                    break;
-                }
-            }
         }
+        vote = Utility.getInstance().createNewVote();
     }
 
     @Override
@@ -120,7 +110,9 @@ public class ConfigureVoteFragment extends Fragment {
         submitView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utility.getInstance().navigateToVote(vote);
+                ServerInteraction.createVote(vote);
+                Utility.getInstance().navigateToFragment(ListVotesFragment.newInstance(
+                        ListVotesFragment.FILTER_ALL));
             }
         });
 

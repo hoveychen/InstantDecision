@@ -72,16 +72,16 @@ public class ServerInteraction {
         }, 0, kRefreshInterval);
     }
 
-    public static void createVote(Vote vote, String creator, boolean multi) {
+    public static void createVote(Vote vote) {
         //survey/new?name=survey_abc&owner=zhiyuwang&option=oo1&option=oo2&active=true&multi_selection=true
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("name", vote.getTitle());
-        data.put("owner", creator);
+        data.put("owner", vote.getCreator().getDeviceId());
         for (Option op : vote.getOptions()) {
             data.put("option", op.getTitle());
         }
-        data.put("active", "true");
-        data.put("multi_selection", String.valueOf(multi));
+        data.put("active", Boolean.toString(vote.isActive()));
+        data.put("multi_selection", Boolean.toString(vote.isMultiSelect()));
         StringBuilder sb = new StringBuilder("survey/new?");
         try {
             for (Map.Entry<String, String> entry : data.entrySet()) {

@@ -84,13 +84,6 @@ public class Utility {
         return identifier;
     }
 
-
-    public void refreshVotes() {
-        if (votes == null) {
-            votes = createMockVotes();
-        }
-    }
-
     public ArrayList<Vote> getVotes() {
         return ServerInteraction.getVotes();
     }
@@ -189,7 +182,7 @@ public class Utility {
         }
     }
 
-    public void startNewVote() {
+    public Vote createNewVote() {
         Vote newVote = new Vote(Long.toString(new Random().nextLong()));
         newVote.setTitle("");
         newVote.setNumTicket(3);
@@ -199,7 +192,6 @@ public class Utility {
         defaultOption.setTitle("");
         newVote.getOptions().add(defaultOption);
         newVote.setCreator(getOwnIdentifier());
-        votes.add(newVote);
-        navigateToFragmentWithBackStack(ConfigureVoteFragment.newInstance(newVote));
+        return newVote;
     }
 }

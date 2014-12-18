@@ -9,7 +9,8 @@
         android:layout_height="fill_parent"
         android:id="@+id/optionTitle"
         android:hint="@string/candidateTitleHint"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:singleLine="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"

@@ -95,7 +95,7 @@ public class ListVotesFragment extends Fragment {
         newVoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utility.getInstance().startNewVote();
+                Utility.getInstance().navigateToFragment(ConfigureVoteFragment.newInstance());
             }
         });
 

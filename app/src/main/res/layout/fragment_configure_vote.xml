@@ -14,7 +14,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/titleEditText"
-            android:hint="@string/vote_title_hint" />
+            android:hint="@string/vote_title_hint"
+            android:singleLine="true" />
 
         <LinearLayout
             android:orientation="horizontal"
