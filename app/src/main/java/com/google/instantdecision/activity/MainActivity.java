@@ -12,6 +12,9 @@ import com.google.instantdecision.fragment.ListVotesFragment;
 import com.google.instantdecision.fragment.NavigationDrawerFragment;
 import com.google.instantdecision.R;
 import com.google.instantdecision.Utility;
+import com.google.instantdecision.model.ServerInteraction;
+import android.os.StrictMode;
+
 
 
 public class MainActivity extends ActionBarActivity
@@ -44,6 +47,14 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        // Starts refreshing data.
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        ServerInteraction.startTimer();
+
 
     }
 

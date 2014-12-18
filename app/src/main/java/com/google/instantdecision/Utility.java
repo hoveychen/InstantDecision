@@ -15,6 +15,7 @@ import com.google.instantdecision.fragment.VoteStatusFragment;
 import com.google.instantdecision.fragment.VotingFragment;
 import com.google.instantdecision.model.Identifier;
 import com.google.instantdecision.model.Option;
+import com.google.instantdecision.model.ServerInteraction;
 import com.google.instantdecision.model.Ticket;
 import com.google.instantdecision.model.Vote;
 
@@ -91,8 +92,7 @@ public class Utility {
     }
 
     public ArrayList<Vote> getVotes() {
-        refreshVotes();
-        return votes;
+        return ServerInteraction.getVotes();
     }
 
     public ArrayList<Vote> createMockVotes() {
