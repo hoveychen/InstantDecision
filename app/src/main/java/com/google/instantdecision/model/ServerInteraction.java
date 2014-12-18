@@ -22,6 +22,7 @@ public class ServerInteraction {
 
     public static ArrayList<Vote> storage = new ArrayList<Vote>();
     private static String HOST = "http://112.95.228.73:5000/";
+    static final int kRefreshInterval = 3000;
 
     public static ArrayList<Vote> getVotes() {
         HttpClient client = new DefaultHttpClient(Utils.httpParams());
@@ -68,7 +69,7 @@ public class ServerInteraction {
                     storage = votes;
                 }
             }
-        }, 0, 60000);
+        }, 0, kRefreshInterval);
     }
 
     public static void createVote(Vote vote, String creator, boolean multi) {

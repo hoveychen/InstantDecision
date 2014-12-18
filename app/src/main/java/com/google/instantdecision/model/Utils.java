@@ -18,6 +18,8 @@ import android.util.Log;
 //import android.util.Log;
 
 public class Utils {
+    static final int kDefaultNumTickets = 1000;
+
     public static HttpParams httpParams() {
         HttpParams httpParameters = new BasicHttpParams();
         int timeoutConnection = 5000;
@@ -108,6 +110,9 @@ public class Utils {
                 vote.setCreator(identifier);
 				populateOptions(vote, voteObj.getJSONArray("options"));
 				populateTicket(vote, voteObj.getJSONArray("selections"), voteObj.getBoolean("multi_selection"));
+                vote.setActive(voteObj.getBoolean("active"));
+                vote.setMultiSelect(voteObj.getBoolean("multi_selection"));
+                vote.setNumTicket(kDefaultNumTickets);
 				votes.add(vote);
 			}
 		} catch (JSONException e) {
