@@ -37,12 +37,12 @@ public class Utils {
 			return;
 		}
 		ArrayList<Option> options = vote.getOptions();
-		List<Option> tickOptions = ticket.getSelection().getSelections();
+		// List<Option> tickOptions = ticket.getSelection().getSelections();
 		for (int i = 0; i < selections.length(); i++) {
 			for (Option option : options) {
 				try {
 					if (option.getId().equals(selections.getString(i))) {
-						tickOptions.add(option);
+						ticket.getSelection().addSelection(option);
 					}
 				} catch (JSONException e) {
 				}
