@@ -17,6 +17,7 @@ import com.google.instantdecision.R;
 import com.google.instantdecision.Utility;
 import com.google.instantdecision.model.Identifier;
 import com.google.instantdecision.model.Option;
+import com.google.instantdecision.model.ServerInteraction;
 import com.google.instantdecision.model.Ticket;
 import com.google.instantdecision.model.Vote;
 
@@ -106,6 +107,8 @@ public class VotingFragment extends Fragment {
                         }
                     }
                     vote.getTickets().add(ticket);
+                    // Submit ticket to server.
+                    ServerInteraction.sendTicket(ticket, vote.getId());
                     Utility.getInstance().navigateToFragment(VoteStatusFragment.newInstance(vote));
                 }
             }
